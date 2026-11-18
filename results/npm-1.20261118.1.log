@@ -1,0 +1,30 @@
+workerd 2026-11-18
+hot.wasm: 4000 functions x 40 ops, 1501532 bytes
+hot-control.wasm: 4000 functions x 40 ops, 1501533 bytes
+hot-others.wasm: 4000 functions x 40 ops, 1501533 bytes
+workerd/server/server/run.rs:653: debug: [ TEST ] new-isolate-per-child
+without calling the exports: 6, 6, 6 ms
+first call of the exports (compiles them): 35 ms
+next 20: median 39 ms (36, 35, 36, 37, 38, 38, 38, 37, 38, 37, 39, 40, 49, 44, 43, 51, 46, 44, 46, 45)
+median / first: 1.11
+workerd/io/worker.c++:3043: info: uncaught exception; source = Uncaught (in promise); stack = Error: later calls took 1.11x the first call's time: the module was compiled again
+    at Object.test (worker:79:13)
+workerd/io/io-context.c++:656: info: uncaught exception; exception = workerd/jsg/value.h:1456: failed: jsg.Error: later calls took 1.11x the first call's time: the module was compiled again
+workerd/server/server/run.rs:660: debug: [ FAIL ] new-isolate-per-child (873.407961ms)
+workerd/server/server/run.rs:653: debug: [ TEST ] reused-isolate-while-others-start
+without calling the exports: 7, 1, 1 ms
+first call of the exports (compiles them): 31 ms
+next 20: median 35 ms (30, 29, 30, 30, 30, 31, 36, 37, 37, 36, 35, 36, 39, 35, 37, 33, 30, 34, 36, 32)
+median / first: 1.13
+workerd/io/worker.c++:3043: info: uncaught exception; source = Uncaught (in promise); stack = Error: later calls took 1.13x the first call's time: the module was compiled again
+    at Object.test (worker:79:13)
+workerd/io/io-context.c++:656: info: uncaught exception; exception = workerd/jsg/value.h:1456: failed: jsg.Error: later calls took 1.13x the first call's time: the module was compiled again
+workerd/server/server/run.rs:660: debug: [ FAIL ] reused-isolate-while-others-start (875.221439ms)
+workerd/server/server/run.rs:653: debug: [ TEST ] control-same-isolate
+without calling the exports: 35, 2, 1 ms
+first call of the exports (compiles them): 32 ms
+next 20: median 4 ms (4, 3, 3, 4, 3, 5, 3, 3, 3, 5, 3, 4, 4, 5, 4, 6, 4, 3, 3, 3)
+median / first: 0.13
+workerd/server/server/run.rs:660: debug: [ PASS ] control-same-isolate (153.846487ms)
+Tests failed!
+exit=1

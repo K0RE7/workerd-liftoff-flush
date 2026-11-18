@@ -1,0 +1,12 @@
+{
+  "name": "workerd-liftoff-flush",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "repro": "node gen-wasm.mjs && workerd test --experimental config.capnp",
+    "repro:no-flush": "node gen-wasm.mjs && workerd test --experimental config-no-flush.capnp"
+  },
+  "devDependencies": {
+    "workerd": "1.20261118.1"
+  }
+}

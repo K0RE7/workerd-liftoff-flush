@@ -1,0 +1,41 @@
+From d5d5d25764bed41e001c93a74bdfa7cf9e01c02f Mon Sep 17 00:00:00 2001
+From: K0RE7 <>
+Date: Wed, 18 Nov 2026 12:00:00 +0000
+Subject: [PATCH] Do not signal memory pressure for every new isolate
+
+Worker::Isolate's constructor called
+MemoryPressureNotification(kModerate) for every isolate. Since V8 14.7
+(v8/v8@c407aa39d2), V8 handles any level above kNone by calling
+WasmEngine::FlushLiftoffCode(), which drops the Liftoff code of every
+wasm module in the process, and by releasing the isolate group's
+memory pool. Every isolate then recompiles the wasm it runs.
+
+The call has no other lasting effect: CheckMemoryPressure() resets the
+level to kNone before the constructor returns, and the only GC action
+for kModerate is to start incremental marking, which workerd disables.
+---
+ src/workerd/io/worker.c++ | 8 --------
+ 1 file changed, 8 deletions(-)
+
+diff --git a/src/workerd/io/worker.c++ b/src/workerd/io/worker.c++
+index 6fb251b..9553176 100644
+--- a/src/workerd/io/worker.c++
++++ b/src/workerd/io/worker.c++
+@@ -1283,14 +1283,6 @@ Worker::Isolate::Isolate(kj::Own<Api> apiParam,
+     jsg::isolateRegisterExternalReference(
+         lock->v8Isolate, reinterpret_cast<intptr_t>(&messageCallback));
+ 
+-    // By default, V8's memory pressure level is "none". This tells V8 that no one else on the
+-    // machine is competing for memory so it might as well use all it wants and be lazy about GC.
+-    //
+-    // In our production environment, however, we can safely assume that there is always memory
+-    // pressure, because every machine is handling thousands of tenants all the time. So we might
+-    // as well just throw the switch to "moderate" right away.
+-    lock->v8Isolate->MemoryPressureNotification(v8::MemoryPressureLevel::kModerate);
+-
+     // Register GC prologue and epilogue callbacks so that the current lock can release tracked
+     // WebAssembly instances and count the full collections it pays for.
+     lock->v8Isolate->AddGCPrologueCallback(
+-- 
+2.52.0.windows.1
+

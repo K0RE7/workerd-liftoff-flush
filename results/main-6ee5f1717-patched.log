@@ -1,0 +1,20 @@
+workerd 2026-11-18
+workerd/server/server/run.rs:653: debug: [ TEST ] new-isolate-per-child
+without calling the exports: 29, 18, 20 ms
+first call of the exports (compiles them): 124 ms
+next 20: median 32 ms (11, 31, 30, 32, 33, 34, 30, 31, 31, 30, 21, 49, 31, 34, 33, 44, 33, 33, 32, 32)
+median / first: 0.26
+workerd/server/server/run.rs:660: debug: [ PASS ] new-isolate-per-child (838.635647ms)
+workerd/server/server/run.rs:653: debug: [ TEST ] reused-isolate-while-others-start
+without calling the exports: 32, 13, 2 ms
+first call of the exports (compiles them): 103 ms
+next 20: median 11 ms (16, 15, 5, 17, 5, 5, 5, 4, 11, 8, 15, 15, 16, 4, 5, 19, 14, 4, 5, 14)
+median / first: 0.11
+workerd/server/server/run.rs:660: debug: [ PASS ] reused-isolate-while-others-start (829.095684ms)
+workerd/server/server/run.rs:653: debug: [ TEST ] control-same-isolate
+without calling the exports: 19, 13, 3 ms
+first call of the exports (compiles them): 96 ms
+next 20: median 14 ms (16, 5, 13, 5, 15, 5, 16, 15, 13, 6, 14, 15, 15, 16, 15, 9, 4, 14, 25, 4)
+median / first: 0.15
+workerd/server/server/run.rs:660: debug: [ PASS ] control-same-isolate (457.645238ms)
+exit=0

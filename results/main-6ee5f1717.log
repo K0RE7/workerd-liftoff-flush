@@ -1,0 +1,27 @@
+workerd 2026-11-18
+workerd/server/server/run.rs:653: debug: [ TEST ] new-isolate-per-child
+without calling the exports: 31, 19, 18 ms
+first call of the exports (compiles them): 111 ms
+next 20: median 114 ms (113, 79, 105, 129, 125, 127, 116, 128, 138, 127, 101, 93, 64, 88, 62, 114, 114, 95, 146, 99)
+median / first: 1.03
+workerd/io/worker.c++:3053: info: uncaught exception; source = Uncaught (in promise); stack = Error: later calls took 1.03x the first call's time: the module was compiled again
+    at Object.test (worker:79:13)
+workerd/io/io-context.c++:656: info: uncaught exception; exception = workerd/jsg/value.h:1456: failed: jsg.Error: later calls took 1.03x the first call's time: the module was compiled again
+workerd/server/server/run.rs:660: debug: [ FAIL ] new-isolate-per-child (2.348060106s)
+workerd/server/server/run.rs:653: debug: [ TEST ] reused-isolate-while-others-start
+without calling the exports: 12, 13, 2 ms
+first call of the exports (compiles them): 81 ms
+next 20: median 88 ms (99, 84, 94, 85, 74, 58, 76, 80, 88, 98, 84, 84, 99, 123, 96, 93, 94, 85, 55, 97)
+median / first: 1.09
+workerd/io/worker.c++:3053: info: uncaught exception; source = Uncaught (in promise); stack = Error: later calls took 1.09x the first call's time: the module was compiled again
+    at Object.test (worker:79:13)
+workerd/io/io-context.c++:656: info: uncaught exception; exception = workerd/jsg/value.h:1456: failed: jsg.Error: later calls took 1.09x the first call's time: the module was compiled again
+workerd/server/server/run.rs:660: debug: [ FAIL ] reused-isolate-while-others-start (2.485949152s)
+workerd/server/server/run.rs:653: debug: [ TEST ] control-same-isolate
+without calling the exports: 196, 12, 3 ms
+first call of the exports (compiles them): 96 ms
+next 20: median 15 ms (15, 14, 15, 15, 5, 15, 16, 14, 14, 5, 15, 15, 15, 16, 16, 19, 13, 4, 14, 15)
+median / first: 0.16
+workerd/server/server/run.rs:660: debug: [ PASS ] control-same-isolate (612.124665ms)
+Tests failed!
+exit=1
